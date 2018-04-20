@@ -29,8 +29,9 @@ urlpatterns = [
     url(r'^account/logout', views.acc_logout,name="acc_logout"),
     url(r'^account/register', views.acc_register,name="acc_register"),
     url(r'^account/password_resetting', views.acc_password_resetting,name="acc_password_resetting"),
+    # url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT }, name='static'),
 ]
-
+# from django.conf import settings if settings.DEBUG: urlpatterns += patterns(', url(r"^media/(?P<path>.*)$", \ "django.views.static.serve", \ {"document_root": settings.MEDIA_ROOT,}),' )
 handler404 = views.page_not_found
 handler500 = views.page_error
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
