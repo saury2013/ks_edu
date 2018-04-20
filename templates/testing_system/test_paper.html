@@ -1,0 +1,171 @@
+{% extends 'crm_base.html' %}
+{% load ts_tags %}
+
+
+
+{% block page-contianer %}
+<div class="wrapper wrapper-content animated fadeIn">
+     <div class="ibox">
+        <div class="ibox-title text-center">
+            <h2>{{ paper_obj.paper_topic }}</h2>
+        </div>
+          <div class="ibox-content">
+            <div class="tp-info well">
+                <div class="info">试卷科目：{{ paper_obj.paper_type }}</div>
+                <div class="info">录 入 者：{{ paper_obj.recorded }}</div>
+                <div class="info">试卷总分：{{ paper_obj.total_score }}</div>
+                <div class="info">答题时间：{{ paper_obj.quiz_time }}</div>
+                <div class="info">录入时间：{{ paper_obj.recorded_date |date:"Y-m-d"}}</div>
+            </div>
+
+            <hr>
+            {% for title,questions in question_dict.items %}
+                  <div class="question-title" style="padding: 20px;">{{ title }}</div>
+                        {% for question in questions %}
+                          <div class="question">
+                            <div class="sub-question-title" style="padding: 10px">{{ question.question }}[{{ question.question_score }}]</div>
+                              {% if question.ps_id.question_type.id <= 3  %}
+                                {% render_question_choice question %}
+                              {% else %}
+                                <div class="question-text-box" style='margin-left: 40px'>
+                                    <textarea style='min-width: 600px;min-height: 200px' class="my-answer" id="{{ question.ps_id.ps_index }}-{{ question.question_index }}-{{ question.id }}"></textarea>
+                                </div>
+                              {% endif %}
+                          </div>
+                        {% endfor %}
+            {% endfor %}
+          <div class="hr-line-dashed"></div>
+                 <button class="btn btn-white" type="button">Cancel</button>
+                 <button class="btn btn-primary " onclick="submmit_test()" type="button">提交试卷</button>
+        </div>
+
+
+     </div>
+
+</div>
+{% endblock %}
+
+{% block bottom-js %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            CountDown();
+            timer = setInterval("CountDown()", 1000);
+
+            $(":radio").click(function () {
+                var span_id = $(this).attr("name")
+                $("span[id="+span_id+"]").text($(this).val());
+
+            });
+
+            $(".question-choice :checkbox").change(function () {
+                var span_id = $(this).attr("name")
+
+                {#var m_answer = $("span[id="+span_id+"]").text()#}
+                var m_answer = "";
+                var cb_checked = new Array();
+                $("input[name="+span_id+"]").each(function (i) {
+
+                    if(this.checked == true){
+                        cb_checked[i] = this.getAttribute('value');
+                    }
+                });
+                if (cb_checked.length > 0){
+                    for(i=0;i<cb_checked.length;i++){
+                        if(typeof cb_checked[i] != 'undefined')
+                            m_answer += cb_checked[i]+',';
+                    }
+
+                }
+                $("span[id="+span_id+"]").text(m_answer);
+
+            });
+
+            {#$(".btn-primary").click();#}
+
+
+
+
+        });
+
+        function submmit_test() {
+                var answer_paper = {}
+                answer_paper.student = "{{ request.user }}";
+                answer_paper.test_paper = "{{ paper_obj.id }}";
+                answer_paper.time_consuming = quiz_time*60 - maxtime;
+                answer_paper.stu_answer = []
+
+                $(".my-answer").each(function (i) {
+                    answer_paper.stu_answer[i] = {}
+                    var id_str = $(this).attr("id").split("-");
+                    console.log(id_str[0])
+                    answer_paper.stu_answer[i].ps_index = id_str[0];
+                    answer_paper.stu_answer[i].question_index = id_str[1];
+                    answer_paper.stu_answer[i].qid = id_str[2];
+                    answer_paper.stu_answer[i].answer = $(this).text()+$(this).val();
+                    {#i += 1;#}
+                });
+
+                var json_ap = JSON.stringify(answer_paper);
+                console.log(json_ap)
+
+                $.ajax({
+        　　　　　　url: "{% url 'check_answer' %}",
+        　　　　　　type: 'post',
+        　　　　　　dataType: 'json',
+        　　　　　　data: json_ap,
+        　　　　})
+        　　　　.done(function(data) {
+        　　　　　　console.log(data);
+                    $(".my-answer").each(function (i) {
+                        var grade_resut = data;
+                        console.log(grade_resut);
+                        $(this).after('<div><span style="color:red">标准答案:'+grade_resut.answer_list[i].standard_answer
+                            +'</span></div><div><span style="color:blue">本题得分:'+grade_resut.answer_list[i].result_score+'</span></div>');
+                });
+                    $(".btn-primary").attr('disabled','disabled');
+                    clearInterval(timer);
+                    $(".footer .pull-right").html("考试已经结束");
+                    var time_consuming_m = quiz_time -Math.round(maxtime / 60);
+                    console.log('time_consuming_m:',time_consuming_m)
+                    console.log('maxtime:',maxtime)
+
+                    var time_consuming_s = 60 - maxtime % 60;
+                    console.log('time_consuming_s:',maxtime % 60)
+                    var time_str = time_consuming_m+"分"+time_consuming_s+"秒";
+                    $(".tp-info").after('<div class="well" style="color:red;">本次得分:'+data.total_score+'</div><div class="well" style="color:red;">所用时间:'
+                        +time_str+'</div>');
+        　　　　        　　　　})
+        　　　　.fail(function() {
+        　　　　　　console.log("error");
+        　　　　})
+        　　　　.always(function() {
+        　　　　　　console.log("complete");
+        　　　　});
+            }
+
+            var quiz_time = parseInt("{{ paper_obj.quiz_time }}")
+            var maxtime = quiz_time * 60;
+
+            function CountDown() {
+                if (maxtime >= 0) {
+                    minutes = Math.floor(maxtime / 60);
+                    seconds = Math.floor(maxtime % 60);
+                    msg = "<span style='color:red'>距离考试结束还有" + minutes + "分" + seconds + "秒</span>";
+                    {#document.all["timer"].innerHTML = msg;#}
+                    $(".footer .pull-right").html(msg);
+                    if (maxtime == 5 * 60)alert("还剩5分钟");
+                        --maxtime;
+                } else{
+
+                    $(".btn-primary").trigger("click");
+                    alert("时间到，考试结束!");
+                }
+            }
+
+
+    </script>
+
+{% endblock %}

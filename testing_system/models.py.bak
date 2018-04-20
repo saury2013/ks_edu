@@ -1,0 +1,130 @@
+from django.db import models
+from ks_crm.models import UserProfile
+
+# Create your models here.
+class TestPaper(models.Model):
+    paper_topic = models.CharField(max_length=32)
+    recorded = models.ForeignKey("ks_crm.UserProfile")
+    total_score = models.IntegerField()
+    quiz_time = models.IntegerField()
+    enabled = models.BooleanField()
+    recorded_date = models.DateTimeField(auto_now_add=True)
+    type_choices = ((0, '教师资格证'),
+                  (1, '教育学'),
+                  (2, '心理学'),
+                  (3, '专业知识'),
+                  )
+    paper_type = models.SmallIntegerField(choices=type_choices,default=0)
+    memo = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.paper_topic
+
+    class Meta:
+        verbose_name = "试卷"
+        verbose_name_plural = "试卷"
+
+class PaperStruct(models.Model):
+    paper_id = models.ForeignKey("TestPaper")
+    big_title = models.CharField(max_length=64)
+    ps_index = models.SmallIntegerField(default=1)
+    qt_choices = ((0,'choice_question'),
+                 (1, 'gap_filling'),
+                 (2, 'essay_question'),
+                 (3, 'writing_task'),
+                 )
+    question_type =models.SmallIntegerField(choices=qt_choices)
+
+    def __str__(self):
+        return self.big_title
+
+    class Meta:
+        verbose_name = "试卷结构"
+        verbose_name_plural = "试卷结构"
+
+class ChoiceQuestion(models.Model):
+    ps_id = models.ForeignKey("PaperStruct")
+    cq_types = ((0, 'single_choice'),
+                  (1, 'multiple_choices'),
+                  (2, 'true_or_false'),
+                  )
+    choice_type = models.SmallIntegerField(choices=cq_types)
+    question_index = models.SmallIntegerField(default=1)
+    question = models.CharField(max_length=64)
+    option_a = models.CharField(max_length=32)
+    option_b = models.CharField(max_length=32)
+    option_c = models.CharField(max_length=32,null=True,blank=True)
+    option_d = models.CharField(max_length=32,null=True,blank=True)
+    option_e = models.CharField(max_length=32,null=True,blank=True)
+    answer = models.CharField(max_length=8)
+    question_score = models.SmallIntegerField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "选择题"
+        verbose_name_plural = "选择题"
+
+
+class GapFilling(models.Model):
+    ps_id = models.ForeignKey("PaperStruct")
+    question_index = models.SmallIntegerField(default=1)
+    question = models.CharField(max_length=64)
+    gap_index = models.SmallIntegerField()
+    gap_amount = models.SmallIntegerField()
+    answer = models.CharField(max_length=8)
+    question_score = models.SmallIntegerField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "填空题"
+        verbose_name_plural = "填空题"
+
+class EssayQuestion(models.Model):
+    ps_id = models.ForeignKey("PaperStruct")
+    question_index = models.SmallIntegerField(default=1)
+    question = models.CharField(max_length=64)
+    answer = models.CharField(max_length=255)
+    question_score = models.SmallIntegerField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "问答题"
+        verbose_name_plural = "问答题"
+
+class WritingTask(models.Model):
+    ps_id = models.ForeignKey("PaperStruct")
+    question_index = models.SmallIntegerField(default=1)
+    question = models.CharField(max_length=64)
+    question_score = models.SmallIntegerField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "写作题"
+        verbose_name_plural = "写作题"
+
+class AnswerPaper(models.Model):
+    stu_id = models.ForeignKey("ks_crm.UserProfile")
+    paper_id = models.ForeignKey("TestPaper")
+    ps_index = models.SmallIntegerField()
+    question_index = models.SmallIntegerField()
+    stu_answer = models.TextField()
+    score = models.IntegerField()
+    time_consuming = models.IntegerField()
+    test_date = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField(max_length=255)
+
+    def __str__(self):
+        return "stu:%s(%s)"%(self.stu_id,self.paper_id)
+
+    class Meta:
+        verbose_name = "答题卡"
+        verbose_name_plural = "答题卡"
+

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KSJY_CRM | CRM</title>
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/animate.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/style.css" rel="stylesheet">
+    <!-- FooTable -->
+    <link href="/static/bootstrap/css/plugins/footable/footable.core.css" rel="stylesheet">
+    {% block extra-css-resources %}{% endblock %}
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+<!------------------left_menu_start----------------->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+
+                    <div class="dropdown profile-element">
+                        {% if request.user.head_img %}
+                            <span>
+                                <img alt="image" class="img-circle" src="{{ request.user.head_img}}" style="max-width: 60px;max-height:60px"/>
+                             </span>
+                        {% endif %}
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ request.user.name }}</strong>
+                             </span> <span class="text-muted text-xs block">{{ request.user.role.name }}<b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Contacts</a></li>
+                            <li><a href="#">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'acc_logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        KSJY
+                    </div>
+                </li>
+
+                {% block sidebar-contianer %}
+                  <ul class="nav nav-sidebar">
+
+                    {% for menu in request.user.role.menus.all %}
+                        <li>
+                            <a href="{% if menu.url_type == 0 %}{%  url  menu.url_name %}{% else %}{{ menu.url_name }}{% endif %}"><i class="fa {{ menu.icon }}"></i> <span class="nav-label">{{ menu.name }}</span></a>
+                        </li>
+                    {% endfor %}
+
+
+                </ul>
+                {% endblock %}
+
+
+
+                <li class="landing_link">
+                    <a target="_blank" href="/"><i class="fa fa-star"></i> <span class="nav-label">Landing Page</span> <span class="label label-warning pull-right">NEW</span></a>
+                </li>
+                <li class="special_link">
+                    <a href="/crm/"><i class="fa fa-database"></i> <span class="nav-label">Package</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+<!------------------left_menu_end----------------->
+
+        <div id="page-wrapper" class="gray-bg">
+<!------------------right_top_menu_start----------------->
+        <div class="row border-bottom">
+
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">Welcome to KSJY crm system.</span>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="#" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/static/imgs/avatar4.jpg">
+                                </a>
+                                <div class="media-body">
+                                    <small class="pull-right">46h ago</small>
+                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="#" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/static/imgs/avatar4.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right text-navy">5h ago</small>
+                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="#" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/static/imgs/avatar4.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right">23h ago</small>
+                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="#">
+                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="#">
+                                    <strong>See All Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'acc_logout' %}">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+
+        </div>
+<!------------------right_top_menu_end----------------->
+
+
+<!------------------right_top_app_path_start----------------->
+
+<!------------------right_top_app_path_end----------------->
+
+
+{% block page-contianer %}{% endblock %}
+
+
+<!------------------footer-start----------------->
+            <div class="footer">
+                <div class="pull-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> ksjy Company &copy; 2018-2040
+                </div>
+            </div>
+<!------------------footer-end----------------->
+
+        </div>
+
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="/static/bootstrap/js/jquery-2.1.1.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/bootstrap/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/bootstrap/js/inspinia.js"></script>
+    <script src="/static/bootstrap/js/plugins/pace/pace.min.js"></script>
+    <!-- FooTable -->
+    <script src="/static/bootstrap/js/plugins/footable/footable.all.min.js"></script>
+
+
+
+    <!------------------crsf_token_ajax----------------->
+    <script>
+
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        {#var csrftoken = Cookies.get('csrftoken');#}
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+
+    {% block bottom-js %}{% endblock %}
+
+</body>
+
+</html>

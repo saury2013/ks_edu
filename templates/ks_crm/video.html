@@ -1,0 +1,72 @@
+{% extends 'crm_base.html' %}
+{% block page-contianer %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Video</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a>KS CRM</a>
+                        </li>
+                        <li class="active">
+                            <strong>Video</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Video window</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <figure>
+                                <iframe  width="498" height="510" src="http://player.youku.com" frameborder="0" allowfullscreen></iframe>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>视频介绍</h5>
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h4><strong>教学视频</strong></h4>
+                            <p><i class="fa fa-clock-o"></i> Uploaded on October 27, 2011</p>
+                            <h5>
+                                Science and Technology
+                            </h5>
+
+                            <div class="row m-t-md">
+                                <div class="col-md-3">
+                                    <h5></h5>
+                                </div>
+                                <div class="col-md-9">
+                                    <h5></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <script src="/static/bootstrap/js/plugins/video/responsible-video.js"></script>
+    <script>
+        $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e){
+            $('body').hasClass('fullscreen-video') ? $('body').removeClass('fullscreen-video') : $('body').addClass('fullscreen-video')
+        });
+    </script>
+{% endblock %}

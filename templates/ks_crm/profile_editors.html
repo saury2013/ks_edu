@@ -1,0 +1,255 @@
+{% extends 'crm_base.html' %}
+
+{% block extra-css-resources %}
+    <link href="/static/bootstrap/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block page-contianer %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Profile Editor</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a>KS CRM</a>
+                        </li>
+                        <li class="active">
+                            <strong>Profile Editor</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+    <div class="wrapper wrapper-content">
+                    <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title  back-change">
+                        <h5>上传头像 </h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="image-crop">
+                                    {% if request.user.head_img %}
+                                        <img alt="image" id="image" class="img-circle" src="{{ request.user.head_img}}" style="max-width: 400px;max-height: 400px"/>
+                                    {% else %}
+                                         <img alt="image" id="image" class="img-circle" src="/media/head_imgs/sample.jpg" style="max-width: 400px;max-height: 400px"/>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Preview image</h4>
+                                <div class="img-preview img-preview-sm"></div>
+                                <h4>Comon method</h4>
+                                <p>
+                                    You can upload new image to crop container and easy download new cropped image.
+                                </p>
+                                <div class="btn-group">
+                                    <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
+                                        选择图片
+                                    </label>
+                                    <label  id="upload_image" class="btn btn-primary">修改头像</label>
+                                </div>
+                                    <h4>裁剪控制</h4>
+                                    <p><small>通过下面方法可以操作画布</small></p>
+                                <div class="btn-group">
+                                    <button class="btn btn-white" id="zoomIn" type="button">放大</button>
+                                    <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                                    <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
+                                    <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>个人信息</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <form method="post" class="form-horizontal" action="{% url 'profile_editors' %}">{% csrf_token %}
+                                    <div class="form-group"><label class="col-sm-2 control-label">注册邮箱</label>
+                                        <div class="col-sm-2"><input type="text" required="true" name="email" disabled="" class="form-control" value="{{ request.user.email }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">用户名称</label>
+                                        <div class="col-sm-4"><input type="text" required="true" name="name" class="form-control" value="{{ request.user.name }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">性别<br/></label>
+                                    <div class="col-sm-10">
+                                        <div><label> <input type="radio" checked="" value="male" id="optionsRadios1" name="gender"> 男</label><label> <input type="radio" value="female" id="optionsRadios2" name="gender" style="margin-left: 10px"> 女</label></div>
+
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">用户密码</label>
+                                        <div class="col-sm-4"><input type="password" required="true" name="password" disabled="" class="form-control" value="{{ request.user.password }}">
+                                        <a href="{% url 'acc_password_resetting' %}"><span class="help-block m-b-none">修改密码</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">用户角色</label>
+                                        <div class="col-sm-2"><input type="text" required="true" name="role"  disabled="" class="form-control-static" value="{{ request.user.role }}">
+                                        <span class="help-block m-b-none">修改用户角色请通知管理员</span>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">个人签名</label>
+                                        <div class="col-sm-10"><input type="text"  name="signature" class="form-control" value="{{ request.user.signature }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">联系电话</label>
+                                        <div class="col-sm-4"><input type="text"  name="phone" class="form-control" value="{{ request.user.phone }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                     <div class="form-group"><label class="col-sm-2 control-label">联系地址</label>
+                                        <div class="col-sm-10"><input type="text"  name="address" class="form-control" value="{{ request.user.address }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">个人爱好</label>
+                                        <div class="col-sm-10"><input type="text"  name="hobbies" class="form-control" value="{{ request.user.hobbies }}"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">报名课程</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control m-b" name="course"  multiple="multiple">
+                                                {% for course in course_list %}
+                                                <option value="{{ course.id  }}">{{ course.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-5">
+                                            <button class="btn btn-white" type="button">cancel</button>
+                                            <button class="btn btn-primary" type="submit">确认修改</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <!-- Image cropper -->
+    <script src="/static/bootstrap/js/plugins/cropper/cropper.js"></script>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        var image = document.getElementById('image');
+        var cropper = new Cropper(image, {
+          aspectRatio: 1,
+          minContainerWidth:400,
+          minContainerHeight:400,
+          preview: ".img-preview",
+          crop: function(event) {
+          }
+        });
+
+
+
+        var $inputImage = $("#inputImage");
+        if (window.FileReader) {
+            $inputImage.change(function () {
+                var fileReader = new FileReader(),
+                    files = this.files,
+                    file;
+
+                if (!files.length) {
+                    return;
+                }
+
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    fileReader.readAsDataURL(file);
+                    fileReader.onload = function () {
+                        $inputImage.val("");
+                        cropper.reset();
+                        cropper.replace(this.result);
+
+                    };
+                } else {
+                    showMessage("Please choose an image file.");
+                }
+            });
+        } else {
+            $inputImage.addClass("hide");
+        }
+
+
+
+        $("#zoomIn").click(function () {
+            cropper.zoom(0.1);
+        });
+
+        $("#zoomOut").click(function () {
+            cropper.zoom(-0.1);
+        });
+
+        $("#rotateLeft").click(function () {
+            cropper.rotate(45);
+        });
+
+        $("#rotateRight").click(function () {
+            cropper.rotate(-45);
+        });
+
+
+
+        $("#upload_image").click(function () {
+            // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+            cropper.getCroppedCanvas(
+                {width:150,
+                height:150,
+                minWidth:150,
+                minHeight:150,
+                }
+            ).toBlob(function (blob) {
+                var formData = new FormData();
+
+                formData.append('croppedImage', blob);
+                formData.append('filename', "{{ request.user.name }}_head.jpg");
+
+                // Use `jQuery.ajax` method
+                $.ajax('/crm/image_upload/head_img/', {
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log('Upload success');
+                    },
+                    error: function () {
+                        console.log('Upload error');
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{
+    "student": "test",
+    "test_paper": "test",
+    "time_consuming": "test",
+    "stu_answer": [
+      {
+        "ps_index": "1",
+        "question_index": "1",
+        "answer": "A"
+      },
+      {
+        "ps_index": "1",
+        "question_index": "1",
+        "answer": "A"
+      }
+    ]
+
+}

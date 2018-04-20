@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>科师教育 | 详情</title>
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/animate.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/style.css" rel="stylesheet">
+    <!-- FooTable -->
+    <link href="/static/bootstrap/css/plugins/footable/footable.core.css" rel="stylesheet">
+    {% block extra-css-resources %}{% endblock %}
+
+</head>
+
+<body class="gray-bg" >
+
+
+
+    <nav class="navbar-default navbar-fixed-top blog-nav " style="background-color:white">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">科师教育</a>
+            </div>
+
+          <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav" id="top_menu">
+
+            <li ><a href="{% url 'news_list' %}">新闻列表</a></li>
+            <li ><a href="{% url 'action_list' %}">活动列表</a></li>
+            <li ><a href="{% url 'course_list' %}">课程列表</a></li>
+            <li ><a href="{% url 'material_list' %}">下载文件</a></li>
+            <li ><a href="#">常见问题</a></li>
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
+              {% if request.user.is_authenticated %}
+                  <li role="presentation" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.userprofile.name }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#">我的主页</a></li>
+                        <li><a href="#">设置</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{% url 'acc_logout' %}">退出</a></li>
+                    </ul>
+                  </li>
+              {% else %}
+                  <li class="active"><a href="{% url 'acc_login' %}">登陆/注册<span class="sr-only">(current)</span></a></li>
+              {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+
+
+      </div>
+    </nav>
+
+        {% block container %}{% endblock %}
+
+
+
+
+
+    <!-- Mainly scripts -->
+    <script src="/static/bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/bootstrap/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/bootstrap/js/inspinia.js"></script>
+    <script src="/static/bootstrap/js/plugins/pace/pace.min.js"></script>
+    <!-- FooTable -->
+    <script src="/static/bootstrap/js/plugins/footable/footable.all.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#top_menu li a").each(function (i) {
+                var now_path = $(this).attr("href");
+                if (now_path == "{{ request.path }}"){
+                    $(this).parent().addClass("active");
+                }
+            });
+            $('.footable').footable();
+            $('.footable2').footable();
+        });
+
+    </script>
+    {% block bottom-js %}{% endblock %}
+
+
+</body>
+
+</html>

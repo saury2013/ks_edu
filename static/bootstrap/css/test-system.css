@@ -1,0 +1,42 @@
+.tp-topic{
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 8px;
+    padding: 5px 0px;
+    border: 1px solid #fff;
+    background-color: white;
+}
+.tp-info{
+    font-size: 16px;
+    line-height: 25px;
+    padding: 8px 0px;
+    border: 1px solid #fff;
+    background-color: #fff;
+}
+
+.question-title{
+    font-size: 18px;
+    padding: 8px 0px;
+}
+
+.sub-question-title{
+    font-size: 15px;
+    padding: 8px 0px;
+    max-width: 1000px;
+}
+.question-choice{
+    padding: 8px 10px;
+}
+.choice-box{
+    line-height: 8px;
+}
+.question-choice-answer{
+    padding: 8px 10px;
+}
+
+.question-text-box textarea{
+    width: 100%;
+    max-width: 1000px;
+    min-height: 200px;
+    overflow: auto;
+}

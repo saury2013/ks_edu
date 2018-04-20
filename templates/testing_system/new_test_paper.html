@@ -1,0 +1,172 @@
+{% extends 'crm_base.html' %}
+
+{% block extra-css-resources %}
+    <link href="/static/bootstrap/css/plugins/dropzone/basic.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/plugins/dropzone/dropzone.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block page-contianer %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>TestPaper Editor</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a>Test System</a>
+                        </li>
+                        <li class="active">
+                            <strong>New TestPaper Editor</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+    <div class="wrapper wrapper-content">
+
+    <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>发布试题   <small>先上传excel文件再将试卷相关信息填写完成并提交</small></h5>
+                        </div>
+                        <div class="ibox-content">
+                            <form method="post" class="form-horizontal" action="/ts/save_test_paper/">{% csrf_token %}
+                                <div class="form-group"><label class="col-sm-2 control-label">试卷标题</label>
+                                    <div class="col-sm-10"><input type="text" required="true" name="paper_topic" class="form-control"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">试卷类型</label>
+
+                                    <div class="col-sm-10"><select class="form-control m-b" name="paper_type">
+                                        {% for paper_type in paper_types %}
+                                        <option>{{ paper_type.type_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">考试总分</label>
+
+                                    <div class="col-sm-10"><input type="text" required="true" name="total_score" class="form-control"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">考试时间</label>
+
+                                    <div class="col-sm-10"><input type="text" required="true" name="quiz_time" class="form-control"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">是否可用</label>
+
+                                    <div class="col-sm-10">
+
+                                        <div class="i-checks"><label> <input type="radio" checked="" value="True" name="enabled"> <i></i> 可用</label></div>
+                                        <div class="i-checks"><label> <input type="radio"  value="False" name="enabled"> <i></i> 不可用</label></div>
+
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-lg-2 control-label">已上传文件</label>
+                                    <div class="col-lg-10"><input id="received_file" required="true" name="up_filename" type="text" readonly="true"  placeholder="还未上传文件..." class="form-control"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="submit">Cancel</button>
+                                        <button class="btn btn-primary" type="submit">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>文件上传</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">Config option 1</a>
+                                </li>
+                                <li><a href="#">Config option 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form id="my-awesome-dropzone" class="dropzone" enctype="multipart/form-data" method="post" action="{{ request.path }}">{% csrf_token %}
+                            <div class="dropzone-previews"><h2 class="text-center">文件上传区域</h2></div>
+                            <button id="dz_button" type="submit" class="btn btn-primary pull-right">上传文件</button>
+                        </form>
+                        <div>
+                            <div class="m text-right"><small>将要上传的excel文件拖拽到上面区域内，再点击上传文件即可。</small> </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block bottom-js %}
+
+    <!-- DROPZONE -->
+    <script src="/static/bootstrap/js/plugins/dropzone/dropzone.js"></script>
+    <script src="/static/bootstrap/js/plugins/toastr/toastr.min.js"></script>
+
+
+    <script>
+        $(document).ready(function(){
+
+            Dropzone.options.myAwesomeDropzone = {
+
+                paramName: "file",
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 1,
+                maxFiles: 1,
+                // Dropzone settings
+                init: function() {
+                    var myDropzone = this;
+
+                    this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue();
+                    });
+                    this.on("sendingmultiple", function() {
+                    });
+                    this.on("successmultiple", function(files, response) {
+                         toastr.success("upload file:"+response,"文件已上传成功，请继续编辑其他内容！")
+                         $("#received_file").val(response);
+
+                    });
+                    this.on("errormultiple", function(files, response) {
+                    });
+                }
+
+            }
+
+       });
+    </script>
+{% endblock %}

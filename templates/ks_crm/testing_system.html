@@ -1,0 +1,94 @@
+{% extends 'crm_base.html' %}
+
+
+{% block page-contianer %}
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>TestPaper List</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a>Testing System</a>
+                        </li>
+                        <li class="active">
+                            <strong>TestPaper List</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>活动列表</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                                   placeholder="Search in table">
+                            <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                <thead>
+                                <tr>
+                                    <th>试卷标题</th>
+                                    <th>试题类型</th>
+                                    <th>录入者</th>
+                                    <th>录入时间</th>
+                                    <th>考试总分</th>
+                                    <th>考试时间</th>
+                                    <th>是否可用</th>
+                                    <th>测试</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for papaer in papaer_list %}
+                                <tr class="gradeX">
+                                    <td>{{ papaer.paper_topic }}</td>
+                                    <td>{{ papaer.paper_type }}</td>
+                                    <td>{{ papaer.recorded.name }}</td>
+                                    <td>{{ papaer.recorded_date }}</td>
+                                    <td>{{ papaer.total_score }}</td>
+                                    <td>{{ papaer.quiz_time }}</td>
+                                    <td>{{ papaer.enabled }}</td>
+                                    <td><a href="/ts/test_paper/{{ papaer.id }}/">go test</a> </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block bottom-js %}
+<script>
+
+        $(document).ready(function () {
+            $("#top_menu li a").each(function (i) {
+                var now_path = $(this).attr("href");
+                if (now_path == "{{ request.path }}"){
+                    $(this).parent().addClass("active");
+                }
+            });
+            $('.footable').footable();
+            $('.footable2').footable();
+        });
+
+    </script>
+{% endblock %}
+

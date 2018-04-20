@@ -1,0 +1,155 @@
+{% extends 'crm_base.html' %}
+
+{% block extra-css-resources %}
+    <link href="/static/bootstrap/css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+    <link href="/static/bootstrap/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block page-contianer %}
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Action Editor</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a>Action Manage</a>
+                        </li>
+                        <li class="active">
+                            <strong>Action Editor</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>发布活动</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <form method="post" class="form-horizontal" action="{% url 'new_action' %}">{% csrf_token %}
+                                    <div class="form-group"><label class="col-sm-2 control-label">活动主题</label>
+                                        <div class="col-sm-10"><input type="text" required="true" name="topic" class="form-control"></div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">开始时间</label>
+                                        <div class="input-group date form_date col-sm-4" data-date="" data-date-format="yyyy-mm-dd" data-link-field="start_date" data-link-format="yyyy-mm-dd" style="padding-left: 16px">
+                                            <input class="form-control" size="16" type="text" required="true" name="start_time" value="" readonly>
+                                            <span class="input-group-addon"><span class="fa fa-times"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">结束时间</label>
+                                        <div class="input-group date form_date col-sm-4" data-date="" data-date-format="yyyy-mm-dd" data-link-field="end_date" data-link-format="yyyy-mm-dd" style="padding-left: 16px">
+                                            <input class="form-control" size="16" type="text" required="true" name="end_time" value="" readonly>
+                                            <span class="input-group-addon"><span class="fa fa-times"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">是否可用</label>
+                                        <div class="col-sm-10">
+                                            <div class="i-checks"><label> <input type="radio" checked="" value="True" name="enabled"> <i></i> 可用</label></div>
+                                            <div class="i-checks"><label> <input type="radio"  value="False" name="enabled"> <i></i> 不可用</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <h5 class="text-center">在下方编辑文本内容</h5>
+                                    <textarea id="summernote"   name="content" ></textarea>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-5">
+                                            <button class="btn btn-white" type="submit">Cancel</button>
+                                            <button class="btn btn-primary" type="submit">确认发布</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <!-- SUMMERNOTE -->
+    <script src="/static/bootstrap/js/plugins/summernote/summernote.min.js"></script>
+    <script src="/static/bootstrap/js/plugins/summernote/lang/summernote-zh-CN.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/plugins/datetimepicker/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/plugins/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="/static/bootstrap/js/plugins/toastr/toastr.min.js"></script>
+
+
+    <!-- 初始化 自定义配置summernote js -->
+	<script type="text/javascript">
+
+    $(document).ready(function(){
+
+            $('#summernote').summernote({
+                height: 400,
+                lang: 'zh-CN',
+                focus:true,
+				//查看更多配置(https://summernote.org/deep-dive/)
+				//下面重写上传图片方法
+				callbacks: {
+                    onImageUpload:function(files) {
+				        // upload image to server and create imgNode...
+                        console.log("image init");
+                        sendFile(files[0]);
+                      {#$summernote.summernote('insertNode', imgNode);#}
+                    },
+                    onImageUploadError: function(){
+                        alert("upload image error");
+                    }
+				},
+
+			});
+
+
+        });//end ready
+
+        function sendFile(file) {
+            data = new FormData();
+            data.append("file", file);
+            console.log(data);
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: "/crm/image_upload/action/",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (url) {
+                    console.log("url",url);
+                    $("#summernote").summernote('insertImage', url); // the insertImage API
+                    toastr.success('upload image','图片已上传!')
+                }
+            });
+        }
+
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	</script>
+
+{% endblock %}
+
+

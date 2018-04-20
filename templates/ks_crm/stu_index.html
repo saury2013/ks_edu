@@ -1,0 +1,95 @@
+{% extends 'crm_base.html' %}
+
+
+{% block page-contianer %}
+
+          <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Profile</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a>KS CRM</a>
+                        </li>
+                        <li class="active">
+                            <strong>Profile</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content">
+            <div class="row animated fadeInRight">
+                <div class="col-md-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Profile Detail</h5>
+                        </div>
+                        <div>
+                            <div class="ibox-content no-padding border-left-right">
+                                {% if request.user.head_img %}
+                                <span>
+                                    <img alt="image" class="img text-center" src="{{ request.user.head_img}}" style="margin-left: 20px" />
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div class="ibox-content profile-content">
+                                <h4><strong>{{ request.user.name }}</strong></h4>
+                                <p><i class="fa fa-map-marker"></i> {{ request.user.role.name }}</p>
+                                <h5>
+                                    About me
+                                </h5>
+                                <p>
+                                    {{ request.user.signature }}
+                                </p>
+
+                                <div class="user-button">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i>消息列表</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="/crm/profile_editors/" class="btn btn-default btn-sm btn-block"><i class="fa fa-coffee"></i>编辑资料</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                    </div>
+                <div class="col-md-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>报名课程</h5>
+                        </div>
+                        <div class="ibox-content">
+
+                            <table class="table table-stripped" >
+                                <thead>
+                                <tr>
+                                    <th>课程名称</th>
+                                    <th>课程周期</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for course in course_list %}
+                                <tr>
+                                    <td>{{ course.name }}</td>
+                                    <td>{{ course.period}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

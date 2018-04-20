@@ -1,0 +1,57 @@
+{% extends 'front_desk/fd_base.html' %}
+
+{% block container %}
+    <div class="row" style="margin-top: 40px;min-height: 750px">
+        <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="wrapper wrapper-content animated fadeInUp">
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>新闻列表</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+
+                            <div class="project-list">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <td class="project-status">
+                                            <strong>#</strong>
+                                        </td>
+                                        <td class="project-title">
+                                            <strong>新闻标题</strong>
+                                        </td>
+                                        <td class="project-title">
+                                            <strong>发布时间</strong>
+                                        </td>
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    {% for news in news_list %}
+                                    <tr>
+                                        <td class="project-status">
+                                            <span class="label label-primary">{{ news.id }}</span>
+                                        </td>
+                                        <td class="project-title">
+                                            <a href="/fd/news/{{news.id }}">{{ news.title }}</a>
+                                        </td>
+                                        <td class="project-title">
+                                            <span>{{ news.date }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+{% endblock %}
