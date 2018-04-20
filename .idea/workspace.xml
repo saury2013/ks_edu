@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="849425e2-741c-4a31-b52d-ef84f27285be" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/script/uwsgi.ini" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/ks_edu/settings.py" afterPath="$PROJECT_DIR$/ks_edu/settings.py" />
-      <change beforePath="$PROJECT_DIR$/templates/ks_crm/profile_editors.html" afterPath="$PROJECT_DIR$/templates/ks_crm/profile_editors.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -89,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/templates/front_desk/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1169">
-              <caret line="616" column="9" lean-forward="true" selection-start-line="616" selection-start-column="9" selection-end-line="616" selection-end-column="9" />
+              <caret line="616" column="9" lean-forward="false" selection-start-line="616" selection-start-column="9" selection-end-line="616" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -99,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/templates/ks_crm/profile_editors.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="735">
-              <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+              <caret line="157" column="0" lean-forward="false" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -115,11 +113,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test2.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test2.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/ks_crm/test2.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -170,7 +178,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/front_desk/article.html" />
         <option value="$PROJECT_DIR$/front_desk/urls.py" />
         <option value="$PROJECT_DIR$/testing_system/models.py" />
         <option value="$PROJECT_DIR$/testing_system/stu_answer.json" />
@@ -221,6 +228,7 @@
         <option value="$PROJECT_DIR$/ks_edu/settings.py" />
         <option value="$PROJECT_DIR$/templates/ks_crm/profile_editors.html" />
         <option value="$PROJECT_DIR$/uwsgi.ini" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -231,8 +239,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="220" />
-    <option name="y" value="1048" />
+    <option name="x" value="1773" />
+    <option name="y" value="366" />
     <option name="width" value="1601" />
     <option name="height" value="1248" />
   </component>
@@ -454,7 +462,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="220" y="1048" width="1601" height="1248" extended-state="0" />
+    <frame x="1773" y="366" width="1601" height="1248" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952777" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -492,14 +500,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/front_desk/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="18" column="71" lean-forward="false" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/front_desk/fd_base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1126">
@@ -824,7 +824,7 @@
     <entry file="file://$PROJECT_DIR$/templates/front_desk/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1169">
-          <caret line="616" column="9" lean-forward="true" selection-start-line="616" selection-start-column="9" selection-end-line="616" selection-end-column="9" />
+          <caret line="616" column="9" lean-forward="false" selection-start-line="616" selection-start-column="9" selection-end-line="616" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -832,7 +832,7 @@
     <entry file="file://$PROJECT_DIR$/templates/ks_crm/profile_editors.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="735">
-          <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+          <caret line="157" column="0" lean-forward="false" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -864,7 +864,15 @@
     <entry file="file://$PROJECT_DIR$/templates/ks_crm/test2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
           <folding />
         </state>
       </provider>
