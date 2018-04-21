@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>KSJY | Register</title>
+    <title>科师教育 | Register</title>
 
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -27,7 +27,9 @@
             </div>
             <h3>Register to KSJY</h3>
             <p>Create account to see it in action.</p>
-            {{ error_list }}
+           <div style="color: red;">
+               {{ error_list }}
+           </div>
             <form class="m-t" role="form" action="/account/register/" method="post">{% csrf_token %}
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Name" required="" name="username">

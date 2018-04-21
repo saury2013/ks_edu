@@ -29,7 +29,7 @@ def acc_register(request):
         if form.is_valid():
             data = form.cleaned_data
             u_name, pwd, user_email = form.save()
-            new_user = authenticate(username=u_name, password=pwd)
+            new_user = authenticate(email=user_email, password=pwd)
             login(request, new_user)
             # if user_email and key:
             #     success, msg = send_user_mail(user_email, key)
@@ -39,7 +39,8 @@ def acc_register(request):
             #     )
             return redirect("/crm/")
         else:
-            return render(request,'register.html')
+            error_list = form.errors['email']
+            return render(request,'register.html',{"error_list":error_list})
     else:
         return render(request,'register.html')
 
