@@ -80,7 +80,14 @@ def acc_password_resetting(request):
             if len(_password1) > 5:
                 obj.set_password(_password1)
                 obj.save()
-                return redirect("/crm/")
+                user = authenticate(username=request.user.email, password=_password1)
+                if user:
+                    login(request, user)
+                    next_url = request.GET.get("next")
+                    if next_url:
+                        return redirect(next_url)
+                    else:
+                        return redirect("/crm/")
             else:
                 errors['password_too_short'] = "must be more than 6 letters"
         else:

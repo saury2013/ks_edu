@@ -2,6 +2,7 @@
 
 {% block extra-css-resources %}
     <link href="/static/bootstrap/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block page-contianer %}
@@ -151,6 +152,7 @@
 {% block bottom-js %}
     <!-- Image cropper -->
     <script src="/static/bootstrap/js/plugins/cropper/cropper.js"></script>
+    <script src="/static/bootstrap/js/plugins/toastr/toastr.min.js"></script>
 
 
 
@@ -240,10 +242,12 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function (callback) {
+                        toastr.success("upload file:","头像已经上传成功！")
                         console.log('Upload success');
                     },
                     error: function () {
+                        toastr.error("upload file:","头像已经上传失败！")
                         console.log('Upload error');
                     }
                 });
