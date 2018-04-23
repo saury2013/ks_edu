@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^action_list/$', views.action_list,name='action_list'),
     url(r'^course_list/$', views.course_list,name='course_list'),
     url(r'^material_list/$', views.material_list,name='material_list'),
+    url(r'^comment/$', views.comment,name='post_comment'),
 
 ]

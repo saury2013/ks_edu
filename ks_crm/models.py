@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -208,4 +209,18 @@ class Menu(models.Model):
     class Meta:
         verbose_name = "菜单"
         verbose_name_plural = "菜单"
+
+class Comment(models.Model):
+    article = models.ForeignKey("News",verbose_name=u"所属文章")
+    user = models.ForeignKey("UserProfile")
+    comment = models.TextField(null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return "%s,%s" %(self.article,self.comment)
+
+    class Meta:
+        verbose_name = "评论"
+        verbose_name_plural = "评论"
 

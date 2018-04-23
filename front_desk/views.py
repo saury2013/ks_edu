@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from ks_crm import models
 
 # Create your views here.
 
 def news(request,news_id):
     news_obj = models.News.objects.get(id=news_id)
-    return render(request,"front_desk/article.html",{"news_obj":news_obj})
+    comment_list = news_obj.comment_set.select_related().all()
+    return render(request,"front_desk/article.html",{"news_obj":news_obj,'comment_list':comment_list})
 def actions(request,action_id):
     action = models.Actions.objects.get(id=action_id)
     print(action.topic,action.content)
@@ -25,3 +26,17 @@ def course_list(request):
 def material_list(request):
     material_list = models.TeacherMaterials.objects.all()
     return render(request, "front_desk/material_list.html", {"material_list": material_list})
+
+def comment(request):
+
+    print(request.POST)
+    if request.method == 'POST':
+        new_comment_obj = models.Comment(
+            article_id=request.POST.get('article_id'),
+            user_id=request.user.id,
+            comment = request.POST.get('comment')
+        )
+        new_comment_obj.save()
+
+    return HttpResponse("ok")
+

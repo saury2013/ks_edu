@@ -44,87 +44,58 @@
                                 <div class="col-lg-12">
 
                                     <h2>Comments:</h2>
+
                                     <div class="social-feed-box">
+                                        <div class="comment-box" style="width:100%;">
+                                        {% if request.user.is_authenticated %}
+                                            <textarea class="form-control" rows="3"></textarea>
+                                            <button class="btn btn-success pull-right" style="margin-top: 10px">评论</button>
+                                        {% else %}
+                                            <div class="jumbotron">
+                                                <h4 class="text-center"><a class="btn-link" href="{% url 'acc_login' %}">登陆</a>后可评论</h4>
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                <div class="comment-list" style="margin-top: 60px">
+                                    {% for comment in comment_list %}
+                                    <div class="social-feed-box" >
                                         <div class="social-avatar">
                                             <a href="" class="pull-left">
-                                                <img alt="image" src="img/a1.jpg">
+                                                <img alt="image" src="{{ comment.user.head_img }}">
                                             </a>
                                             <div class="media-body">
                                                 <a href="#">
-                                                    Andrew Williams
+                                                   {{ comment.user.name }}
                                                 </a>
-                                                <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                                                <small class="text-muted">{{ comment.date|timesince }} ago</small>
                                             </div>
                                         </div>
                                         <div class="social-body">
                                             <p>
-                                                Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                                default model text.
+                                                {{ comment.comment }}
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="social-feed-box">
+                                    {% endfor %}
+
+                                </div>
+
+                                    <div class="social-feed-box hidden">
                                         <div class="social-avatar">
                                             <a href="" class="pull-left">
-                                                <img alt="image" src="img/a2.jpg">
+                                                <img alt="image" src="">
                                             </a>
                                             <div class="media-body">
                                                 <a href="#">
-                                                    Michael Novek
+
                                                 </a>
-                                                <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                                                <small class="text-muted"></small>
                                             </div>
                                         </div>
                                         <div class="social-body">
                                             <p>
-                                                Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                                in their infancy. Packages and web page editors now use Lorem Ipsum as their
-                                                default model text.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="social-feed-box">
-                                        <div class="social-avatar">
-                                            <a href="" class="pull-left">
-                                                <img alt="image" src="img/a3.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    Alice Mediater
-                                                </a>
-                                                <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
-                                            </div>
-                                        </div>
-                                        <div class="social-body">
-                                            <p>
-                                                Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                                in their infancy. Packages and web page editors now use Lorem Ipsum as their
-                                                default model text.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="social-feed-box">
-                                        <div class="social-avatar">
-                                            <a href="" class="pull-left">
-                                                <img alt="image" src="img/a5.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    Monica Flex
-                                                </a>
-                                                <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
-                                            </div>
-                                        </div>
-                                        <div class="social-body">
-                                            <p>
-                                                Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                                in their infancy. Packages and web page editors now use Lorem Ipsum as their
-                                                default model text.
+                                               hidden box
                                             </p>
                                         </div>
                                     </div>
@@ -143,4 +114,68 @@
         </div>
 
 
+{% endblock %}
+
+{% block bottom-js %}
+    <script>
+
+
+        $(document).ready(function () {
+
+            $(".comment-box button").click(function () {
+                var comment_text = $(".comment-box textarea").val();
+                if( comment_text.trim().length < 5 ){
+                    alert("评论字数不能少于5!");
+                }else{
+                    $.post("{% url 'post_comment' %}",
+                        {
+                            article_id:"{{ news_obj.id }}",
+                            comment:comment_text.trim()
+                        },//end post args
+                        function (callback) {
+                            var new_comment_box = $(".hidden").clone();
+                            $(".comment-list").append(new_comment_box);
+                            new_comment_box.removeClass("hidden");
+                            new_comment_box.find("img[alt='image']").attr('src',"{{ request.user.head_img }}");
+                            new_comment_box.find(".media-body a").html("{{ request.user.name }}");
+                            new_comment_box.find(".text-muted").html("now");
+                            new_comment_box.find(".social-body p").html(comment_text.trim());
+                            $(".comment-box textarea").val("").focus();
+                        }
+                    );//end post
+
+                }
+            });//end button click
+        });
+
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        {#var csrftoken = Cookies.get('csrftoken');#}
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
 {% endblock %}

@@ -94,7 +94,7 @@ def save_test_paper(request):
 
 def check_answer(request):
     if request.is_ajax():
-        stu_anwer = json.loads(request.body)
+        stu_anwer = json.loads(request.body.decode('utf-8'))#这里需要解码不然在服务器上运行会出错
         print(stu_anwer)
         data = {}
         total_score = 0
