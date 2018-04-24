@@ -18,7 +18,7 @@ from django.contrib import admin
 from ks_crm import views
 
 urlpatterns = [
-    url(r'^$', views.index),
+    url(r'^$', views.index,name='crm_home'),
     url(r'^stu_index$', views.stu_index,name='stu_index'),
     url(r'^testing_system', views.testing_system,name='testing_system'),
     url(r'^lesson_video', views.lesson_video,name='lesson_video'),
@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^new_course', views.add_course,name='new_course'),
     url(r'^profile_editors', views.profile_modify,name='profile_editors'),
     url(r'^image_upload/(\w+)/', views.image_upload),
-    url(r'^skin-config.html/', views.skin_config),
-    url(r'^test2/', views.test2),
+
 
 ]

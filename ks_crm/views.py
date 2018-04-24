@@ -127,8 +127,5 @@ def profile_modify(request):
 
     return render(request,'ks_crm/profile_editors.html',{"course_list":course_list})
 
-def skin_config(request):
-    return render(request, "ks_crm/skin-config.html")
 
-def test2(request):
-    return render(request,'ks_crm/test2.html')
+

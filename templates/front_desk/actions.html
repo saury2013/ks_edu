@@ -21,8 +21,7 @@
                             <div class="well" style="background-color: white">
                                 <div class="info">活动时间：{{ action.start_time|date:"Y-m-d" }} 至 {{ action.end_time|date:"Y-m-d"  }}</div>
                             </div>
-                            <p><img width="100%" src="{{ action.image }}"></p>
-                            <hr>
+
                             {{ action.content|safe }}
 
                             <hr>
