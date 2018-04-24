@@ -159,7 +159,7 @@
                     if (maxtime == 5 * 60)alert("还剩5分钟");
                         --maxtime;
                 } else{
-
+                    clearInterval(timer);
                     $(".btn-primary").trigger("click");
                     alert("时间到，考试结束!");
                 }

@@ -70,9 +70,8 @@ from ks_edu import settings
 import os
 
 def image_upload(request,url_type):
-    print(url_type)
-    if url_type == 'action':
 
+    if url_type == 'action':
         temp_file_path = os.path.join(settings.MEDIA_ROOT, 'action_images')
         if not os.path.exists(temp_file_path):
             os.makedirs(temp_file_path, exist_ok=True)
@@ -85,20 +84,23 @@ def image_upload(request,url_type):
                     f.write(chunk)
         return HttpResponse("/media/action_images/"+filename)
     elif url_type == 'head_img':
-        print(request.FILES)
         temp_file_path = os.path.join(settings.MEDIA_ROOT, 'head_imgs')
         if not os.path.exists(temp_file_path):
             os.makedirs(temp_file_path, exist_ok=True)
         filename = ""
         for k, file_obj in request.FILES.items():
             filename = request.POST.get("filename")
-            print("filename",filename)
+            # print("filename",filename)
             filepath = "%s/%s" % (temp_file_path, filename)
             with open(filepath, "wb") as f:
                 for chunk in file_obj.chunks():
                     f.write(chunk)
-        head_img_url = "/media/head_imgs/" + filename
+        head_img_url = "/head_imgs/" + filename
+        old_img_url = request.user.head_img
         UserProfile.objects.filter(id=request.user.id).update( head_img = head_img_url)
+        if old_img_url.url != '/media/head_imgs/sample.jpg':
+            root_path = settings.MEDIA_ROOT.replace('\\','/')
+            os.remove(os.path.join(root_path+str(old_img_url)))
         return HttpResponse(head_img_url)
 
     return HttpResponse("ok")
@@ -122,8 +124,6 @@ def profile_modify(request):
             course = Course.objects.get(id=course_id)
             print("_user_obj.course:",_user_obj.course.all())
             _user_obj.course.add(course)
-        print(request.POST.getlist("course"))
-
 
     return render(request,'ks_crm/profile_editors.html',{"course_list":course_list})
 

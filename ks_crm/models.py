@@ -137,13 +137,13 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
         max_length=255,
         unique=True
     )
-    password = models.CharField(_('password'),max_length=128,help_text=mark_safe('''<a href='password/'>修改密码</a>'''))
+    password = models.CharField(_('password'),max_length=128)
     name = models.CharField(max_length=32)
     role = models.ForeignKey("Role",blank=True,null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     signature = models.CharField(max_length=255, blank=True, null=True)
-    head_img = models.ImageField( blank=True, null=True)
+    head_img = models.ImageField(upload_to='/head_imgs/',default='/head_imgs/sample.jpg')
     phone = models.CharField(max_length=32, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     hobbies = models.CharField(max_length=255, blank=True, null=True)

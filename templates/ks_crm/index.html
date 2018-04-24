@@ -31,9 +31,9 @@
                         </div>
                         <div>
                             <div class="ibox-content no-padding border-left-right">
-                                {% if request.user.head_img %}
+                                {% if request.user.head_img.url %}
                                 <span>
-                                    <img alt="image" class="img-circle" src="{{ request.user.head_img}}" />
+                                    <img alt="image" class="img-circle" src="{{ request.user.head_img.url}}" />
                                 </span>
                                 {% endif %}
                             </div>

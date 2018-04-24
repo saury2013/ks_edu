@@ -33,7 +33,7 @@
                             <div class="ibox-content no-padding border-left-right">
                                 {% if request.user.head_img %}
                                 <span>
-                                    <img alt="image" class="img text-center" src="{{ request.user.head_img}}" style="margin-left: 20px" />
+                                    <img alt="image" class="img text-center" src="{{ request.user.head_img.url}}" style="margin-left: 20px" />
                                 </span>
                                 {% endif %}
                             </div>

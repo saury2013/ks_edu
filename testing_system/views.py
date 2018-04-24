@@ -2,7 +2,6 @@ from django.shortcuts import render,HttpResponse
 from testing_system.models import PaperStruct,TestPaper,AnswerPaper,QuestionLib,PaperType,QuestionType,StuAnswer
 from ks_crm.models import UserProfile
 import os
-import datetime
 import json
 from testing_system.excel_handler import excel_table_byname
 from testing_system.text_match_handler import similarity_analysis
@@ -26,9 +25,7 @@ def test_paper(request,paper_id):
 def upload_test_paper(request):
 
     paper_types = PaperType.objects.all()
-
     if request.method == 'POST':
-
         if request.is_ajax():
             print("ajax post", request.FILES)
             from ks_edu import settings
@@ -64,9 +61,8 @@ def save_test_paper(request):
         file_path = os.path.join(settings.BASE_DIR,'temp_upload',filename)
         tables = excel_table_byname(file_path)
         pre_ps_index = 0
-        _ps_id = 0
         for row in tables:
-            print(row)
+            # print(row)
             _ps_index = int(row['ps_index'])
             if pre_ps_index != _ps_index:
                 _big_title = row['big_title']
@@ -95,7 +91,7 @@ def save_test_paper(request):
 def check_answer(request):
     if request.is_ajax():
         stu_anwer = json.loads(request.body.decode('utf-8'))#这里需要解码不然在服务器上运行会出错
-        print(stu_anwer)
+        # print(stu_anwer)
         data = {}
         total_score = 0
         answer_list = []
@@ -118,7 +114,7 @@ def check_answer(request):
                     result_score = int(question_obj.question_score)
                 else:
                     result_score = 0
-            print("%s-%s-%s"%(sub_stu_anwer['ps_index'],sub_stu_anwer['question_index'],result_score))
+            # print("%s-%s-%s"%(sub_stu_anwer['ps_index'],sub_stu_anwer['question_index'],result_score))
             answer_dict = {}
             answer_dict['standard_answer'] = standard_answer
             answer_dict['result_score'] = result_score
@@ -142,7 +138,7 @@ def grade_test(question_obj,answer):
     standard_answer = question_obj.answer
     score = question_obj.question_score
     match_rate = float(similarity_analysis(standard_answer,answer))
-    print(match_rate)
+    # print(match_rate)
     #打分规则：
     #如果回答与标准答案匹配都在0.4以上才算有效答案
     #有效答案的匹配度低于0.7则再加0.1的匹配度，高于0.7则算全对
