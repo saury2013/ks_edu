@@ -130,6 +130,14 @@ class UserProfileManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def profile_info_list(self,id):
+        user = self.get(id=id)
+        res = {key:value for key,value in user.__dict__.items() if not key.startswith('_')}
+        res["course"] = [course.id for course in user.course.all()]
+        res["role"] = user.role.name
+        res["password"] = user.password
+        return res
+
 class UserProfile(AbstractBaseUser,PermissionsMixin):
     '''账号表'''
     email = models.EmailField(
@@ -137,13 +145,26 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
         max_length=255,
         unique=True
     )
-    password = models.CharField(_('password'),max_length=128)
-    name = models.CharField(max_length=32)
-    role = models.ForeignKey("Role",blank=True,null=True)
+    password = models.CharField(_('password'), max_length=128, help_text=mark_safe('''<a href='password/'>修改密码</a>'''))
+    nickname = models.CharField(max_length=32, blank=True, null=True)
+    name = models.CharField(max_length=32, blank=True, null=True)
+    stu_num = models.IntegerField(blank=True, null=True)
+    grade_choices = (('1', '大一'), ('2', '大二'), ('3', '大三'), ('4', '大四'))
+    grade = models.SmallIntegerField(choices=grade_choices, default=0)
+    profession = models.CharField(max_length=32, blank=True, null=True)
+    ID_num = models.IntegerField(blank=True, null=True)
+    degree_choices = (('0', '专科'), ('1', '本科'))
+    degree = models.SmallIntegerField(choices=degree_choices, default=0)
+    gender_choices = (('0', '男'), ('1', '女'))
+    gender = models.SmallIntegerField(choices=gender_choices, default=0)
+    isno_choices = (('0', '是'), ('1', '否'))
+    isteacher = models.SmallIntegerField(choices=isno_choices, default=0)
+    ismakeup = models.SmallIntegerField(choices=isno_choices, default=0)
+    role = models.ForeignKey("Role", blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     signature = models.CharField(max_length=255, blank=True, null=True)
-    head_img = models.ImageField(upload_to='/head_imgs/',default='/head_imgs/sample.jpg')
+    head_img = models.ImageField(blank=True, null=True)
     phone = models.CharField(max_length=32, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     hobbies = models.CharField(max_length=255, blank=True, null=True)

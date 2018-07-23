@@ -1,7 +1,8 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from testing_system.models import TestPaper
 from ks_crm.models import Actions,News,Course,UserProfile,FAQ
 from datetime import datetime
+from ks_crm.forms import ProfileForm
 
 # Create your views here.
 
@@ -106,26 +107,49 @@ def image_upload(request,url_type):
     return HttpResponse("ok")
 
 def profile_modify(request):
+    user_info = UserProfile.objects.profile_info_list(id=request.user.id)
+    # print("user list:",user_info)
+    form = ProfileForm(user_info)
     course_list = Course.objects.filter(enabled=True)
     if request.method == "POST":
-        user_obj = UserProfile.objects.filter(id=request.user.id)
-        print(user_obj)
-        user_obj.update(
-            name = request.POST.get("name"),
-            phone = request.POST.get("phone"),
-            address = request.POST.get("address"),
-            hobbies = request.POST.get("hobbies"),
-            signature = request.POST.get("signature"),
-        )
-        # course = Course.objects.get(name=request.POST.get("course"))
-        course_list = request.POST.getlist("course")
-        _user_obj = UserProfile.objects.get(id=request.user.id)
-        for course_id in course_list:
-            course = Course.objects.get(id=course_id)
-            print("_user_obj.course:",_user_obj.course.all())
-            _user_obj.course.add(course)
+        form = ProfileForm(request.POST)
+        print(form.is_valid())
+        print(form.errors)
+        if form.is_valid():
+            print(form.cleaned_data['email'])
+            user_obj = UserProfile.objects.filter(id=request.user.id)
+            print(user_obj)
+            print(request.POST.get("degree"),request.POST.get("ismakeup"))
+            user_obj.update(
+                name = form.cleaned_data["name"],
+                nickname = form.cleaned_data["nickname"],
+                stu_num = form.cleaned_data["stu_num"],
+                grade = form.cleaned_data["grade"],
+                degree = form.cleaned_data["degree"],
+                isteacher = form.cleaned_data["isteacher"],
+                ismakeup = form.cleaned_data["ismakeup"],
+                gender = form.cleaned_data["gender"],
+                profession = form.cleaned_data["profession"],
+                signature = form.cleaned_data["signature"],
+                address = form.cleaned_data["address"],
+                hobbies = form.cleaned_data["hobbies"],
+                phone = form.cleaned_data["phone"],
+                ID_num = form.cleaned_data["ID_num"],
+            )
+            return redirect("/crm")
+            # course = Course.objects.get(name=request.POST.get("course"))
+            # course_list = request.POST.getlist("course")
+            # _user_obj = UserProfile.objects.get(id=request.user.id)
+            # for course_id in course_list:
+            #     course = Course.objects.get(id=course_id)
+            #     print("_user_obj.course:",_user_obj.course.all())
+            #     _user_obj.course.add(course)
+            # print(request.POST.getlist("course"))
 
-    return render(request,'ks_crm/profile_editors.html',{"course_list":course_list})
+    return render(request,'ks_crm/profile_editors.html',{"course_list":course_list,"form":form})
 
+def skin_config(request):
+    return render(request, "ks_crm/skin-config.html")
 
-
+def test2(request):
+    return render(request,'ks_crm/test2.html')

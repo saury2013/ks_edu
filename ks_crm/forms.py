@@ -2,6 +2,7 @@
 __author__ = 'Allen'
 
 from django import forms
+from django.forms import widgets
 from ks_crm.models import UserProfile
 from ks_edu import settings
 try:
@@ -67,3 +68,27 @@ class RegisterForm(forms.Form):
         new_user.save()
 
         return u_name, pwd, new_user.email
+
+class ProfileForm(forms.Form):
+    # from ks_crm.models import Course
+    # course_list = Course.objects.filter(enabled=True)
+    # course_choices = [(course.id,course.name) for course in course_list]
+    email = forms.EmailField(widget=widgets.TextInput(attrs={'class':'form-control','readonly':'readonly'}))
+    nickname = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control','readonly':'readonly'}))
+    name = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
+    stu_num = forms.IntegerField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
+    grade = forms.IntegerField(widget=widgets.Select(choices=[('1', '大一'), ('2', '大二'), ('3', '大三'), ('4', '大四')],attrs={'class':'form-control'}))
+    degree = forms.IntegerField(widget=widgets.Select(choices=[('0', '专科'), ('1', '本科')],attrs={'class':'form-control'}))
+    isteacher = forms.IntegerField(widget=widgets.Select(choices=[('0', '是'), ('1', '否')],attrs={'class':'form-control'}))
+    ismakeup = forms.IntegerField(widget=widgets.Select(choices=[('0', '是'), ('1', '否')],attrs={'class':'form-control'}))
+    gender = forms.IntegerField(widget=widgets.Select(choices=[('0', '男'), ('1', '女')],attrs={'class':'form-control'}))
+    profession = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control'}),required=False)
+    role = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control','readonly':'readonly'}))
+    signature = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control'}),required=False)
+    address = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control'}),required=False)
+    hobbies = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control'}),required=False)
+    phone = forms.IntegerField(widget=widgets.NumberInput(attrs={'class': 'form-control'}),required=False)
+    ID_num = forms.IntegerField(widget=widgets.NumberInput(attrs={'class': 'form-control'}),required=False)
+    # course = forms.MultipleChoiceField(widget=widgets.SelectMultiple(attrs={'class': 'form-control'}),choices=course_choices,disabled=True)
+

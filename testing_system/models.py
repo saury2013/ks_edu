@@ -10,6 +10,7 @@ class TestPaper(models.Model):
     enabled = models.BooleanField()
     recorded_date = models.DateTimeField(auto_now_add=True)
     paper_type = models.ForeignKey("PaperType")
+    paper_module = models.ForeignKey("PaperModule", default=1)
     memo = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -96,3 +97,13 @@ class QuestionType(models.Model):
     class Meta:
         verbose_name = "试题类型"
         verbose_name_plural = "试题类型"
+
+class PaperModule(models.Model):
+    module_name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.module_name
+
+    class Meta:
+        verbose_name = "试卷模块"
+        verbose_name_plural = "试卷模块"
