@@ -11,14 +11,15 @@ from testing_system.text_match_handler import similarity_analysis
 
 def tp_handler(paper_id):
     paper_struct = PaperStruct.objects.filter(paper_id=paper_id).order_by('ps_index')
-    question_dict = {}
+    question_list = []
     for ps in paper_struct:
-        question_dict[ps.big_title] = QuestionLib.objects.filter(ps_id=ps.id).order_by('question_index')
-    return question_dict
+        question_list.append((ps.big_title,QuestionLib.objects.filter(ps_id=ps.id).order_by('question_index')))
+    return question_list
 
 def test_paper(request,paper_id):
     paper_obj = TestPaper.objects.filter(id=paper_id)[0]
     question_dict = tp_handler(paper_id)
+    # print(question_dict)
     # print(paper_obj.paper_topic)
     return render(request,'testing_system/test_paper.html',{'paper_obj':paper_obj,'question_dict':question_dict})
 
@@ -28,7 +29,7 @@ def upload_test_paper(request):
     paper_modules = PaperModule.objects.all()
     if request.method == 'POST':
         if request.is_ajax():
-            print("ajax post", request.FILES)
+            # print("ajax post", request.FILES)
             from ks_edu import settings
             temp_file_path = os.path.join(settings.BASE_DIR, 'temp_upload')
             if not os.path.exists(temp_file_path):

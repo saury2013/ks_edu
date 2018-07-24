@@ -19,8 +19,8 @@
             </div>
 
             <hr>
-            {% for title,questions in question_dict.items %}
-                  <div class="question-title" style="padding: 20px;">{{ title }}</div>
+            {% for title,questions in question_dict %}
+                <div class="question-title" style="padding: 20px;">{{ title }}</div>
                         {% for question in questions %}
                           <div class="question">
                             <div class="sub-question-title" style="padding: 10px">{{ question.question }}[{{ question.question_score }}]</div>
