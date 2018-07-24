@@ -5,7 +5,7 @@ Desktop.ini
 
 # Python:
 *.py[cod]
-__pycache__/
+*/__pycache__/*
 *.py[cod]
 *$py.class
 *.pyc

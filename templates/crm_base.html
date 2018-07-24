@@ -31,7 +31,7 @@
                 <li class="nav-header">
 
                     <div class="dropdown profile-element">
-                        {% if request.user.head_img.url %}
+                        {% if request.user.head_img %}
                             <span>
                                 <img alt="image" class="img-circle" src="{{ request.user.head_img.url}}" style="max-width: 60px;max-height:60px"/>
                              </span>
@@ -99,9 +99,9 @@
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                        <i class="fa fa-envelope"></i>  <span class="label label-warning">0</span>
                     </a>
-{#                    <ul class="dropdown-menu dropdown-messages">#}
+                    <ul class="dropdown-menu dropdown-messages">
 {#                        <li>#}
 {#                            <div class="dropdown-messages-box">#}
 {#                                <a href="#" class="pull-left">#}
@@ -141,20 +141,20 @@
 {#                            </div>#}
 {#                        </li>#}
 {#                        <li class="divider"></li>#}
-{#                        <li>#}
-{#                            <div class="text-center link-block">#}
-{#                                <a href="#">#}
-{#                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>#}
-{#                                </a>#}
-{#                            </div>#}
-{#                        </li>#}
-{#                    </ul>#}
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="#">
+                                    <i class="fa fa-envelope"></i> <strong>No Messages</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                        <i class="fa fa-bell"></i>  <span class="label label-primary">0</span>
                     </a>
-{#                    <ul class="dropdown-menu dropdown-alerts">#}
+                    <ul class="dropdown-menu dropdown-alerts">
 {#                        <li>#}
 {#                            <a href="#">#}
 {#                                <div>#}
@@ -182,15 +182,15 @@
 {#                            </a>#}
 {#                        </li>#}
 {#                        <li class="divider"></li>#}
-{#                        <li>#}
-{#                            <div class="text-center link-block">#}
-{#                                <a href="#">#}
-{#                                    <strong>See All Alerts</strong>#}
-{#                                    <i class="fa fa-angle-right"></i>#}
-{#                                </a>#}
-{#                            </div>#}
-{#                        </li>#}
-{#                    </ul>#}
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="#">
+                                    <strong>No Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
 
 

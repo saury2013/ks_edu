@@ -18,7 +18,7 @@ UNAME_CHARS = letters + "._" + digits
 PWD_CHARS = letters + punctuation + digits
 
 class RegisterForm(forms.Form):
-    username = forms.CharField(max_length=30, help_text='Letters, digits,\
+    name = forms.CharField(max_length=30, help_text='Letters, digits,\
                     period and underscores only.')
     email = forms.EmailField()
     password = forms.CharField(max_length=30, widget=forms.PasswordInput())
@@ -61,7 +61,7 @@ class RegisterForm(forms.Form):
         return user_email
 
     def save(self):
-        u_name = self.cleaned_data["username"]
+        u_name = self.cleaned_data["name"]
         pwd = self.cleaned_data["password"]
         email = self.cleaned_data['email']
         new_user = UserProfile.objects.create_user(email, u_name, pwd)
@@ -74,9 +74,9 @@ class ProfileForm(forms.Form):
     # course_list = Course.objects.filter(enabled=True)
     # course_choices = [(course.id,course.name) for course in course_list]
     email = forms.EmailField(widget=widgets.TextInput(attrs={'class':'form-control','readonly':'readonly'}))
-    nickname = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}))
+    name = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}))
     password = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control','readonly':'readonly'}))
-    name = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
+    true_name = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
     stu_num = forms.IntegerField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
     grade = forms.IntegerField(widget=widgets.Select(choices=[('1', '大一'), ('2', '大二'), ('3', '大三'), ('4', '大四')],attrs={'class':'form-control'}))
     degree = forms.IntegerField(widget=widgets.Select(choices=[('0', '专科'), ('1', '本科')],attrs={'class':'form-control'}))

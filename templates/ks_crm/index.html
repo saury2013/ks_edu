@@ -8,7 +8,7 @@
                     <h2>index</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/crm/">Home</a>
                         </li>
                         <li>
                             <a>KS CRM</a>
@@ -31,7 +31,7 @@
                         </div>
                         <div>
                             <div class="ibox-content no-padding border-left-right">
-                                {% if request.user.head_img.url %}
+                                {% if request.user.head_img %}
                                 <span>
                                     <img alt="image" class="img-circle" src="{{ request.user.head_img.url}}" />
                                 </span>

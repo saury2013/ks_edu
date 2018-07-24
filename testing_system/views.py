@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-from testing_system.models import PaperStruct,TestPaper,AnswerPaper,QuestionLib,PaperType,QuestionType,StuAnswer
+from testing_system.models import PaperStruct,TestPaper,AnswerPaper,QuestionLib,PaperType,QuestionType,StuAnswer,PaperModule
 from ks_crm.models import UserProfile
 import os
 import json
@@ -25,6 +25,7 @@ def test_paper(request,paper_id):
 def upload_test_paper(request):
 
     paper_types = PaperType.objects.all()
+    paper_modules = PaperModule.objects.all()
     if request.method == 'POST':
         if request.is_ajax():
             print("ajax post", request.FILES)
@@ -41,7 +42,7 @@ def upload_test_paper(request):
             return HttpResponse(filename)
 
 
-    return render(request,'testing_system/new_test_paper.html',{'paper_types':paper_types})
+    return render(request,'testing_system/new_test_paper.html',{'paper_types':paper_types,'paper_modules':paper_modules})
 
 def save_test_paper(request):
     if request.method == 'POST':
@@ -49,6 +50,7 @@ def save_test_paper(request):
         tp_obj = TestPaper(
             paper_topic=request.POST.get("paper_topic"),
             paper_type = PaperType.objects.get(type_name=request.POST.get("paper_type")),
+            paper_module = PaperModule.objects.get(module_name=request.POST.get("paper_module")),
             total_score = request.POST.get("total_score"),
             quiz_time = request.POST.get("quiz_time"),
             enabled = request.POST.get("enabled"),

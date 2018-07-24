@@ -146,11 +146,11 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
         unique=True
     )
     password = models.CharField(_('password'), max_length=128, help_text=mark_safe('''<a href='password/'>修改密码</a>'''))
-    nickname = models.CharField(max_length=32, blank=True, null=True)
+    true_name = models.CharField(max_length=32, blank=True, null=True)
     name = models.CharField(max_length=32, blank=True, null=True)
     stu_num = models.IntegerField(blank=True, null=True)
     grade_choices = (('1', '大一'), ('2', '大二'), ('3', '大三'), ('4', '大四'))
-    grade = models.SmallIntegerField(choices=grade_choices, default=0)
+    grade = models.SmallIntegerField(choices=grade_choices, default=1)
     profession = models.CharField(max_length=32, blank=True, null=True)
     ID_num = models.IntegerField(blank=True, null=True)
     degree_choices = (('0', '专科'), ('1', '本科'))

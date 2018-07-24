@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from testing_system.models import TestPaper
 from ks_crm.models import Actions,News,Course,UserProfile,FAQ
+from testing_system.models import AnswerPaper
 from datetime import datetime
 from ks_crm.forms import ProfileForm
 
@@ -12,8 +13,9 @@ def index(request):
 
 def stu_index(request):
     course_list = request.user.course.all()
+    test_results = AnswerPaper.objects.filter(student=request.user)
     print("course_list:",course_list)
-    return render(request, 'ks_crm/stu_index.html',{"course_list":course_list})
+    return render(request, 'ks_crm/stu_index.html',{"course_list":course_list,'test_results':test_results})
 
 def testing_system(request):
     papaer_list = TestPaper.objects.all()
@@ -122,7 +124,7 @@ def profile_modify(request):
             print(request.POST.get("degree"),request.POST.get("ismakeup"))
             user_obj.update(
                 name = form.cleaned_data["name"],
-                nickname = form.cleaned_data["nickname"],
+                true_name = form.cleaned_data["true_name"],
                 stu_num = form.cleaned_data["stu_num"],
                 grade = form.cleaned_data["grade"],
                 degree = form.cleaned_data["degree"],

@@ -8,7 +8,7 @@
                     <h2>Profile</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/crm/">Home</a>
                         </li>
                         <li>
                             <a>KS CRM</a>
@@ -80,6 +80,38 @@
                                 <tr>
                                     <td>{{ course.name }}</td>
                                     <td>{{ course.period}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>测试结果</h5>
+                        </div>
+                        <div class="ibox-content">
+
+                            <table class="table table-stripped" >
+                                <thead>
+                                <tr>
+                                    <th>试卷名称</th>
+                                    <th>测试得分</th>
+                                    <th>测试耗时(s)</th>
+                                    <th>再测一次</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for test_result in test_results %}
+                                <tr>
+                                    <td>{{ test_result.test_paper.paper_topic }}</td>
+                                    <td>{{ test_result.score}}</td>
+                                    <td>{{ test_result.time_consuming}}</td>
+                                    <td><a href="/ts/test_paper/{{ test_result.test_paper.id }}/">go test</a></td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
