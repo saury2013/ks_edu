@@ -160,7 +160,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     isno_choices = (('0', '是'), ('1', '否'))
     isteacher = models.SmallIntegerField(choices=isno_choices, default=0)
     ismakeup = models.SmallIntegerField(choices=isno_choices, default=0)
-    role = models.ForeignKey("Role", blank=True, null=True)
+    role = models.ForeignKey("Role", blank=True, null=True,default=1)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     signature = models.CharField(max_length=255, blank=True, null=True)

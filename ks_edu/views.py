@@ -39,7 +39,7 @@ def acc_register(request):
             #     )
             return redirect("/crm/")
         else:
-            error_list = form.errors['email']
+            error_list = form.errors
             return render(request,'register.html',{"error_list":error_list})
     else:
         return render(request,'register.html')
