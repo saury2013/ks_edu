@@ -79,7 +79,7 @@ class ProfileForm(forms.Form):
     password = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control','readonly':'readonly'}))
     true_name = forms.CharField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
     stu_num = forms.IntegerField(widget=widgets.TextInput(attrs={'class':'form-control'}),required=False)
-    grade = forms.IntegerField(widget=widgets.Select(choices=[('1', '大一'), ('2', '大二'), ('3', '大三'), ('4', '大四')],attrs={'class':'form-control'}))
+    grade = forms.CharField(widget=widgets.TextInput(attrs={'class': 'form-control',"placeholder":"如：2018级"}),required=False)
     degree = forms.IntegerField(widget=widgets.Select(choices=[('0', '专科'), ('1', '本科')],attrs={'class':'form-control'}))
     isteacher = forms.IntegerField(widget=widgets.Select(choices=[('0', '是'), ('1', '否')],attrs={'class':'form-control'}))
     ismakeup = forms.IntegerField(widget=widgets.Select(choices=[('0', '是'), ('1', '否')],attrs={'class':'form-control'}))

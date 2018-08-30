@@ -20,12 +20,10 @@
 
     <div class="middle-box text-center loginscreen   animated fadeInDown">
         <div>
-            <div>
-
-                <h1 class="logo-name">KSJY</h1>
-
+            <div class="logo-name">
+                <img src="/static/bootstrap/img/logo3.png" style="height: 100%;width: 100%;" />
             </div>
-            <h3>Register to KSJY</h3>
+            <h3>欢迎注册进入科师教育平台</h3>
             <p>Create account to see it in action.</p>
            <div style="color: red;">
                {{ error_list }}
@@ -44,14 +42,14 @@
                 <div class="form-group">
                     <input type="password" class="form-control" placeholder="Confirm Password" required="" name="confirm_password">
                 </div>
-                <div class="form-group">
-                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
-                </div>
+{#                <div class="form-group">#}
+{#                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>#}
+{#                </div>#}
                 <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
 
-                <p class="text-muted text-center"><small>Already have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="/account/login/">Login</a>
-                <a class="btn btn-sm btn-white btn-block" href="/">Back index page</a>
+                <p class="text-muted text-center"><small>已经有账号了?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="/account/login/">登录</a>
+                <a class="btn btn-sm btn-white btn-block" href="/">返回首页</a>
             </form>
             <p class="m-t"> <small>ksjy.edu framework base on Bootstrap 3 &copy; 2018</small> </p>
         </div>
