@@ -36,3 +36,17 @@ def render_question_choice(question_obj):
     end_ele = '</div><div class="question-choice-answer" style="margin-left: 40px;padding-top: 10px">你的回答：<span id="{}" class="my-answer"></span></div>'.format(choice_name)
 
     return mark_safe(ele+end_ele)
+
+@register.simple_tag
+def render_question(question_obj):
+    question_header = question_obj.question
+    question_splited = question_header.split("/")
+    column_num = len(question_splited)
+    question_str = question_splited[0] + "&nbsp;[" + str(question_obj.question_score) + "]"
+    i = 1
+    while column_num > 1:
+        sstr = "<br>&nbsp;" + question_splited[i]
+        question_str += sstr
+        column_num -= 1
+        i += 1
+    return mark_safe(question_str)

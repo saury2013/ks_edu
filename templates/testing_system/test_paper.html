@@ -23,7 +23,7 @@
                 <div class="question-title" style="padding: 20px;">{{ title }}</div>
                         {% for question in questions %}
                           <div class="question">
-                            <div class="sub-question-title" style="padding: 10px">{{ question.question }}[{{ question.question_score }}]</div>
+                            <div class="sub-question-title" style="padding: 10px">{% render_question question %}</div>
                               {% if question.ps_id.question_type.id <= 3  %}
                                 {% render_question_choice question %}
                               {% else %}

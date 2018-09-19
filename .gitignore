@@ -14,3 +14,5 @@ Desktop.ini
 .idea/
 .idea/*.xml
 .idea/vcs.xml
+*.xml
+.idea/workspace.xml

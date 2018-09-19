@@ -80,10 +80,26 @@ WSGI_APPLICATION = 'ks_edu.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ks_edu',
+        'USER': 'ks_edu',
+        'PASSWORD': 'WXGg4ziOx3!BhAyZ#GGpobq9wA23u7K%',
+        'HOST': 'ksedu.cqp7ossxu8q0.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'ks_edu',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '12050625',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432',
+    # }
 }
 
 # DATABASES = {

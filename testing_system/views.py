@@ -65,7 +65,7 @@ def save_test_paper(request):
         tables = excel_table_byname(file_path)
         pre_ps_index = 0
         for row in tables:
-            # print(row)
+            print(row)
             _ps_index = int(row['ps_index'])
             if pre_ps_index != _ps_index:
                 _big_title = row['big_title']
@@ -112,8 +112,17 @@ def check_answer(request):
             if int(question_obj.ps_id.question_type.id) > 3:
                 result_score = grade_test(question_obj,sub_stu_anwer['answer'])
             else:
+                import re
+                question_type = int(question_obj.ps_id.question_type.id)
+                if question_type == 1:
+                    pattern = re.compile(r'[A-F]')
+                elif question_type == 2:
+                    pattern = re.compile(r'[A-F\,]+')
+                else:
+                    pattern = re.compile(r'\w')
+                std_answer = pattern.search(question_obj.answer).group(0)
                 import difflib
-                if difflib.SequenceMatcher(None, sub_stu_anwer['answer'], question_obj.answer).quick_ratio() == 1:
+                if difflib.SequenceMatcher(None, sub_stu_anwer['answer'], std_answer).quick_ratio() == 1:
                     result_score = int(question_obj.question_score)
                 else:
                     result_score = 0
