@@ -1,4 +1,6 @@
 from django.shortcuts import render,HttpResponse
+from django.core import serializers
+import json
 from ks_crm import models
 
 # Create your views here.
@@ -15,13 +17,28 @@ def news_list(request):
     news_list = models.News.objects.all()
     return render(request, "front_desk/news_list.html", {"news_list": news_list})
 
+def news_list_api(request):
+    news_list = models.News.objects.all()
+    news = serializers.serialize('json', news_list)
+    return HttpResponse(json.dumps(news), content_type="application/json")
+
 def action_list(request):
     action_list = models.Actions.objects.all()
     return render(request, "front_desk/action_list.html", {"action_list": action_list})
 
+def action_list_api(request):
+    action_list = models.Actions.objects.all()
+    actions = serializers.serialize('json', action_list)
+    return HttpResponse(json.dumps(actions), content_type="application/json")
+
 def course_list(request):
     course_list = models.Course.objects.all()
     return render(request, "front_desk/course_list.html", {"course_list": course_list})
+
+def course_list_api(request):
+    course_list = models.Course.objects.all()
+    courses = serializers.serialize('json', course_list)
+    return HttpResponse(json.dumps(courses), content_type="application/json")
 
 def material_list(request):
     material_list = models.TeacherMaterials.objects.all()
