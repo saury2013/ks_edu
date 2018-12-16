@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse
 from django.core import serializers
-import json
+import simplejson as json
 from ks_crm import models
 
 # Create your views here.
@@ -19,8 +19,15 @@ def news_list(request):
 
 def news_list_api(request):
     news_list = models.News.objects.all()
-    news = serializers.serialize('json', news_list)
-    return HttpResponse(json.dumps(news), content_type="application/json")
+    res = []
+    for _news in news_list:
+        news = {}
+        news['img'] = _news.image.url if _news.image else ''
+        news['title'] = _news.title
+        news['duration'] = _news.content
+        news['date'] = _news.date.strftime('%Y-%m-%d')
+        res.append(news)
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 def action_list(request):
     action_list = models.Actions.objects.all()
@@ -28,8 +35,16 @@ def action_list(request):
 
 def action_list_api(request):
     action_list = models.Actions.objects.all()
-    actions = serializers.serialize('json', action_list)
-    return HttpResponse(json.dumps(actions), content_type="application/json")
+    res = []
+    for _action in action_list:
+        action = {}
+        action['img'] = _action.image.url
+        action['title'] = _action.topic
+        action['duration'] = '%s-%s'%(_action.start_time,_action.end_time)
+        action['date'] = _action.date.strftime('%Y-%m-%d')
+        action['favourites'] = _action.favourites if _action.favourites else 0
+        res.append(action)
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 def course_list(request):
     course_list = models.Course.objects.all()
@@ -37,7 +52,14 @@ def course_list(request):
 
 def course_list_api(request):
     course_list = models.Course.objects.all()
-    courses = serializers.serialize('json', course_list)
+    courses = []
+    for _course in course_list:
+        course = {}
+        course['name'] = _course.name
+        course['price'] = _course.price
+        course['period'] = _course.period
+        course['outline'] = _course.outline
+        courses.append(course)
     return HttpResponse(json.dumps(courses), content_type="application/json")
 
 def material_list(request):
