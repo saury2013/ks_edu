@@ -14,16 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url,include
-from django.contrib import admin
-from front_desk import views
+from api import views
 
 urlpatterns = [
-    url(r'^news/(\d+)/$', views.news),
-    url(r'^actions/(\d+)/$', views.actions),
-    url(r'^news_list/$', views.news_list,name='news_list'),
-    url(r'^action_list/$', views.action_list,name='action_list'),
-    url(r'^course_list/$', views.course_list,name='course_list'),
-    url(r'^material_list/$', views.material_list,name='material_list'),
-    url(r'^comment/$', views.comment,name='post_comment'),
+    # url(r'^stu_index$', views.stu_index,name='stu_index'),
+    # url(r'^image_upload/(\w+)/', views.image_upload),
+    url(r'^action_list/$', views.action_list_api,name='action_list_api'),
+    url(r'^news_list/$', views.news_list_api,name='news_list_api'),
+    url(r'^course_list/$', views.course_list_api,name='course_list_api'),
+    url(r'^acc_login/$', views.acc_login,name='acc_login'),
 
 ]

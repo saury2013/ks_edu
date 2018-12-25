@@ -65,7 +65,7 @@ class RegisterForm(forms.Form):
         u_name = self.cleaned_data["name"]
         pwd = self.cleaned_data["password"]
         email = self.cleaned_data['email']
-        new_user = UserProfile.objects.create_user(email, u_name, pwd)
+        new_user = UserProfile.objects.create_user(email=email, name=u_name, password=pwd)
         new_user.save()
 
         return u_name, pwd, new_user.email

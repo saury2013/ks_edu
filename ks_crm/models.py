@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser,PermissionsMixin
 )
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ValidationError
 
 # Create your models here.
@@ -97,18 +99,20 @@ class Branch(models.Model):
 
 
 class UserProfileManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, phone, email, name, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
         """
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
+        if phone:
+            user = self.model(phone=phone, name=name)
+        elif email:
+            user = self.model(
             email=self.normalize_email(email),
             name=name,
-        )
+            )
+        else:
+            raise ValueError('Users must have an email address or phone number')
 
         user.set_password(password)
         self.is_active = True
@@ -143,7 +147,8 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
-        unique=True
+        unique=True,
+        blank=True, null=True,
     )
     password = models.CharField(_('password'), max_length=128, help_text=mark_safe('''<a href='password/'>修改密码</a>'''))
     true_name = models.CharField(max_length=32, blank=True, null=True)
@@ -164,7 +169,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     is_admin = models.BooleanField(default=False)
     signature = models.CharField(max_length=255, blank=True, null=True)
     head_img = models.ImageField(blank=True, null=True)
-    phone = models.CharField(max_length=32, blank=True, null=True)
+    phone = models.CharField(max_length=32, blank=True, null=True, unique=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     hobbies = models.CharField(max_length=255, blank=True, null=True)
     course = models.ManyToManyField("Course", blank=True)
@@ -202,6 +207,22 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_active
+
+class MyBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = UserProfile.objects.get(Q(phone=username) | Q(email=username))
+        except UserProfile.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
+            return None
+
+        if user.check_password(password):
+            return user
+
+    def get_user(self, user_id):
+        try:
+            return UserProfile.objects.get(id=user_id)
+        except UserProfile.DoesNotExist:
+            return None
 
 class Role(models.Model):
     '''角色表'''

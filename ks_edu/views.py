@@ -56,6 +56,7 @@ def acc_login(request):
         user = authenticate(username=_email,password=_password)
         if user:
             login(request,user)
+            print(request.session)
             next_url = request.GET.get("next")
             if next_url:
                 return redirect(next_url)

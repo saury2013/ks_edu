@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'front_desk.apps.FrontDeskConfig',
     'ks_crm',
-    'testing_system'
+    'testing_system',
+    'api'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -74,6 +75,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ks_edu.wsgi.application'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'   # 引擎（默认）
+SESSION_COOKIE_NAME = "sessionid"                       # Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）
+SESSION_COOKIE_PATH =  "/"                               # Session的cookie保存的路径（默认）
+SESSION_COOKIE_DOMAIN = None                             # Session的cookie保存的域名（默认）
+SESSION_COOKIE_SECURE = False                            # 是否Https传输cookie（默认）
+SESSION_COOKIE_HTTPONLY = True                           # 是否Session的cookie只支持http传输（默认）
+SESSION_COOKIE_AGE = 1209600                             # Session的cookie失效日期（2周）（默认）
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False                  # 是否关闭浏览器使得Session过期（默认）
+SESSION_SAVE_EVERY_REQUEST = False                       # 是否每次请求都保存Session，默认修改之后才保存（默认）
 
 
 # Database
@@ -137,9 +148,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -161,6 +172,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #设置自定义用户认证 app名.表名
 AUTH_USER_MODEL = 'ks_crm.UserProfile'
+#自定义认证方法
+AUTHENTICATION_BACKENDS = (
+    'ks_crm.models.MyBackend',
+)
 
 #开发模式
 IS_DEVELOPMENT = True

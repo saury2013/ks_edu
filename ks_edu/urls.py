@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^fd/', include("front_desk.urls")),
     url(r'^crm/', include("ks_crm.urls")),
     url(r'^ts/', include("testing_system.urls")),
+    url(r'^api/', include("api.urls")),
     url(r'^$', views.index,name='home'),
     url(r'^account/login', views.acc_login,name="acc_login"),
     url(r'^account/logout', views.acc_logout,name="acc_logout"),
