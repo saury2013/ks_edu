@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import (
@@ -125,7 +127,8 @@ class UserProfileManager(BaseUserManager):
         birth and password.
         """
         user = self.create_user(
-            email,
+            phone=None,
+            email=email,
             password=password,
             name=name,
         )
@@ -154,7 +157,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     true_name = models.CharField(max_length=32, blank=True, null=True)
     name = models.CharField(max_length=32, blank=True, null=True)
     stu_num = models.IntegerField(blank=True, null=True)
-    grade = models.CharField(max_length=32, default="")
+    grade = models.CharField(max_length=32, blank=True, null=True)
     profession = models.CharField(max_length=32, blank=True, null=True)
     ID_num = models.IntegerField(blank=True, null=True)
     degree_choices = (('0', '专科'), ('1', '本科'))

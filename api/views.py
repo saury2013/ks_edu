@@ -33,7 +33,7 @@ def course_list_api(request):
     course_list = models.Course.objects.all()
     courses = []
     for _course in course_list:
-        course = {}d
+        course = {}
         course['name'] = _course.name
         course['price'] = _course.price
         course['period'] = _course.period
