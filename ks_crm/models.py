@@ -214,7 +214,9 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 class MyBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
+            print("----------------mybackend---------------")
             user = UserProfile.objects.get(Q(phone=username) | Q(email=username))
+            print("user authenticate:%s"%user)
         except UserProfile.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
             return None
 
