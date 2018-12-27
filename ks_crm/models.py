@@ -212,7 +212,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
         return self.is_active
 
 class MyBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(self, username=None, password=None, **kwargs):
         try:
             print("----------------mybackend---------------")
             user = UserProfile.objects.get(Q(phone=username) | Q(email=username))
